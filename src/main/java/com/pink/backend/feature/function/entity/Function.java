@@ -1,15 +1,14 @@
 package com.pink.backend.feature.function.entity;
 
+import com.pink.backend.feature.common.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -18,10 +17,12 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Function {
+public class Function extends BaseTimeEntity {
 
     @Id
     @Column(columnDefinition = "BINARY(16)")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(nullable = false, length = 255)
@@ -30,14 +31,14 @@ public class Function {
     @Column(nullable = false, length = 50)
     private String runtime;
 
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
+    private String code;
+
     @Column(nullable = false)
     private Integer latestVersion;
 
-    @CreationTimestamp
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
+    public void updateCode(String newCode, Integer newVersion) {
+        this.code = newCode;
+        this.latestVersion = newVersion;
+    }
 }
