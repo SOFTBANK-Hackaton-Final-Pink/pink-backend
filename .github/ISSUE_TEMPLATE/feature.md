@@ -1,7 +1,7 @@
 ---
 name: "Feature Request"
 about: "기능 개발 템플릿"
-title: "[Feature] "
+title: "Feature: "
 labels: ["feature"]
 assignees: []
 ---
