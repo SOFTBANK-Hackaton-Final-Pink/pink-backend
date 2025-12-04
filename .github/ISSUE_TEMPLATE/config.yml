@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+issue_templates:
+  - name: "Feature Request"
+    description: "기능 개발 템플릿"
+    file: feature.md
