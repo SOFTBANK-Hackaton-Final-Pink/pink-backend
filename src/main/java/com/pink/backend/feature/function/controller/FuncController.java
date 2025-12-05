@@ -1,11 +1,6 @@
 package com.pink.backend.feature.function.controller;
 
-import com.pink.backend.feature.function.dto.FuncCreateReq;
-import com.pink.backend.feature.function.dto.FuncCreateRes;
-import com.pink.backend.feature.function.dto.FuncDeleteRes;
-import com.pink.backend.feature.function.dto.FuncListItemDto;
-import com.pink.backend.feature.function.dto.FuncUpdateCodeReq;
-import com.pink.backend.feature.function.dto.FuncUpdateCodeRes;
+import com.pink.backend.feature.function.dto.*;
 import com.pink.backend.feature.function.service.FuncCreateService;
 import com.pink.backend.feature.function.service.FuncDeleteService;
 import com.pink.backend.feature.function.service.FuncListService;
@@ -74,6 +69,16 @@ public class FuncController {
         @Parameter(description = "커서 (updatedAt 기준, 형식: yyyy-MM-dd'T'HH:mm:ss)", required = false)
         @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime cursor) {
         List<FuncListItemDto> response = funcListService.getFunctionList(cursor);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @Operation(summary = "함수 상세 조회", description = "함수 상세 내역과 함수 실행 이력 목록을 커서 기반 페이지네이션으로 조회합니다. 페이지 크기는 10으로 고정됩니다. 마지막 항목의 updatedAt 값을 다음\n"
+            + "요청의 cursor 파라미터로 사용하면 됩니다")
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<FuncDetailRes>>> getFunctionDetail(
+            @Parameter(description = "커서 (updatedAt 기준, 형식: yyyy-MM-dd'T'HH:mm:ss)", required = false)
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime cursor) {
+        List<FuncDetailRes> response = funcListService.getFunctionDetail(cursor);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }
