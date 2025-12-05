@@ -6,6 +6,7 @@ import com.pink.backend.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Tag(name = "Function", description = "서버리스 함수 관리 API")
+@Tag(name = "Function", description = "함수 관리 API")
 @RestController
 @RequestMapping("/api/functions")
 @RequiredArgsConstructor
@@ -38,7 +39,7 @@ public class FuncController {
 
     @Operation(summary = "함수 생성", description = "새로운 서버리스 함수를 생성합니다.")
     @PostMapping
-    public ResponseEntity<ApiResponse<FuncCreateRes>> createFunction(@RequestBody FuncCreateReq request) {
+    public ResponseEntity<ApiResponse<FuncCreateRes>> createFunction(@Valid @RequestBody FuncCreateReq request) {
         FuncCreateRes response = funcCreateService.createFunction(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(response));
     }
