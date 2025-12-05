@@ -1,3 +1,5 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.5.8"
@@ -24,6 +26,12 @@ repositories {
 	mavenCentral()
 }
 
+dependencyManagement {
+	imports {
+		mavenBom("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.1")
+	}
+}
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -37,8 +45,19 @@ dependencies {
 
 	// Swagger
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+
+	// aws sqs
+	implementation("io.awspring.cloud:spring-cloud-aws-starter-sqs")
+
+	// JSON
+	implementation("com.fasterxml.jackson.core:jackson-databind")
+
+	// Spring Retry
+	implementation("org.springframework.boot:spring-boot-starter-aop")
+	implementation("org.springframework.retry:spring-retry")
 }
 
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
