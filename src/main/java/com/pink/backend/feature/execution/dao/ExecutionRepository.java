@@ -18,14 +18,16 @@ public interface ExecutionRepository extends JpaRepository<Execution, UUID> {
 
     @Query(
             "SELECT e FROM Execution e " +
-                    "WHERE e.function.id = :functionId " +
+                    "LEFT JOIN FETCH e.result " +
+                    "WHERE e.functionId = :functionId " +
                     "ORDER BY e.updatedAt DESC"
     )
     List<Execution> findRecentExecutions(@Param("functionId") UUID functionId, Pageable pageable);
 
     @Query(
             "SELECT e FROM Execution e " +
-                    "WHERE e.function.id = :functionId " +
+                    "LEFT JOIN FETCH e.result " +
+                    "WHERE e.functionId = :functionId " +
                     "AND e.updatedAt < :cursor " +
                     "ORDER BY e.updatedAt DESC"
     )

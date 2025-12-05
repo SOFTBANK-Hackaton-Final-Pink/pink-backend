@@ -71,7 +71,8 @@ public class FuncController {
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 
-    @Operation(summary = "함수 상세 조회", description = "함수 상세 내역과 함수 실행 이력 목록을 커서 기반 페이지네이션으로 조회합니다. 페이지 크기는 10으로 고정됩니다. 마지막 항목의 updatedAt 값을 다음\n"
+    @Operation(summary = "함수 상세 조회", description = "함수 상세 정보는 고정이며,\n" +
+            "함수 실행 이력(executions)만 커서 기반 페이지네이션이 적용됩니다. 페이지 크기는 10으로 고정됩니다. 마지막 항목의 updatedAt 값을 다음\n"
             + "요청의 cursor 파라미터로 사용하면 됩니다")
     @GetMapping("/{functionId}")
     public ResponseEntity<ApiResponse<FuncDetailRes>> getFunctionDetail(
