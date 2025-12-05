@@ -1,10 +1,7 @@
 package com.pink.backend.feature.function.controller;
 
 import com.pink.backend.feature.function.dto.*;
-import com.pink.backend.feature.function.service.FuncCreateService;
-import com.pink.backend.feature.function.service.FuncDeleteService;
-import com.pink.backend.feature.function.service.FuncListService;
-import com.pink.backend.feature.function.service.FuncUpdateService;
+import com.pink.backend.feature.function.service.*;
 import com.pink.backend.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,6 +34,7 @@ public class FuncController {
     private final FuncUpdateService funcUpdateService;
     private final FuncDeleteService funcDeleteService;
     private final FuncListService funcListService;
+    private final FuncDetailService funcDetailService;
 
     @Operation(summary = "함수 생성", description = "새로운 서버리스 함수를 생성합니다.")
     @PostMapping
@@ -74,11 +72,14 @@ public class FuncController {
 
     @Operation(summary = "함수 상세 조회", description = "함수 상세 내역과 함수 실행 이력 목록을 커서 기반 페이지네이션으로 조회합니다. 페이지 크기는 10으로 고정됩니다. 마지막 항목의 updatedAt 값을 다음\n"
             + "요청의 cursor 파라미터로 사용하면 됩니다")
-    @GetMapping
-    public ResponseEntity<ApiResponse<List<FuncDetailRes>>> getFunctionDetail(
+    @GetMapping("/{functionId}")
+    public ResponseEntity<ApiResponse<FuncDetailRes>> getFunctionDetail(
+            @Parameter(description = "Function ID", required = true)
+            @PathVariable UUID functionId,
+
             @Parameter(description = "커서 (updatedAt 기준, 형식: yyyy-MM-dd'T'HH:mm:ss)", required = false)
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime cursor) {
-        List<FuncDetailRes> response = funcListService.getFunctionDetail(cursor);
+        FuncDetailRes response = funcDetailService.getFunctionDetail(functionId, cursor);
         return ResponseEntity.ok(ApiResponse.success(response));
     }
 }

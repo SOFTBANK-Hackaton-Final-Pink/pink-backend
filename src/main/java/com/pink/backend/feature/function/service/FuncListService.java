@@ -1,7 +1,6 @@
 package com.pink.backend.feature.function.service;
 
 import com.pink.backend.feature.function.dao.FunctionRepository;
-import com.pink.backend.feature.function.dto.FuncDetailRes;
 import com.pink.backend.feature.function.dto.FuncListItemDto;
 import com.pink.backend.feature.function.entity.Function;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +35,5 @@ public class FuncListService {
         return functions.stream()
                 .map(FuncListItemDto::from)
                 .collect(Collectors.toList());
-    }
-
-    public List<FuncDetailRes> getFunctionDetail(LocalDateTime cursor) {
-        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
-        
     }
 }

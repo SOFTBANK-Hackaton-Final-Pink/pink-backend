@@ -1,6 +1,7 @@
 package com.pink.backend.feature.function.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pink.backend.feature.execution.entity.Execution;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,5 +43,14 @@ public class FuncDetailRes {
         private LocalDateTime createdAt;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         private LocalDateTime updatedAt;
+
+        public static ExecutionSummaryDto from (Execution execution) {
+            return ExecutionSummaryDto.builder()
+                    .executionId(execution.getExecutionId())
+                    .status(execution.getStatus())
+                    .createdAt(execution.getCreatedAt())
+                    .updatedAt(execution.getUpdatedAt())
+                    .build();
+        }
     }
 }
