@@ -3,10 +3,10 @@ package com.pink.backend.feature.execution.entity;
 import com.pink.backend.feature.common.model.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.UUID;
 
@@ -14,41 +14,31 @@ import java.util.UUID;
 @Table(name = "executions")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class Execution extends BaseTimeEntity {
 
     @Id
-    @Column(columnDefinition = "BINARY(16)")
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @Column(name = "execution_id", columnDefinition = "BINARY(16)")
     private UUID executionId;
 
-    @Column(nullable = false, columnDefinition = "BINARY(16)")
+    @Column(name = "function_id", nullable = false, columnDefinition = "BINARY(16)")
     private UUID functionId;
 
-    @Column(nullable = false)
-    private Integer version;
-
-    @Column(nullable = false, columnDefinition = "MEDIUMTEXT")
-    private String codeSnapshot;
-
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private String status;
+    private ExecutionStatus status;
 
-    @Column(columnDefinition = "JSON")
-    private String input;
+    @OneToOne(mappedBy = "execution", fetch = FetchType.LAZY)
+    private ExecutionResult result;
 
-    @Column(columnDefinition = "TEXT")
-    private String output;
+    @Builder
+    public Execution(UUID functionId, ExecutionStatus status) {
+        this.functionId = functionId;
+        this.status = (status != null) ? status : ExecutionStatus.PENDING;
+    }
 
-    @Column(columnDefinition = "TEXT")
-    private String errorMessage;
-
-    @Column
-    private Float cpuUsage;
-
-    @Column
-    private Float memoryUsageMb;
-
-    @Column(nullable = false)
-    private Integer durationMs;
+    public void updateStatus(ExecutionStatus newStatus) {
+        this.status = newStatus;
+    }
 }
