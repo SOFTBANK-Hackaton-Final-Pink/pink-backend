@@ -1,0 +1,28 @@
+# Test files
+src/test/
+**/test/
+**/*Test.java
+**/*Tests.java
+
+# Build outputs
+.gradle/
+build/
+!build/libs/*.jar
+
+# IDE
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+HELP.md
+
+# Misc
+.github/
