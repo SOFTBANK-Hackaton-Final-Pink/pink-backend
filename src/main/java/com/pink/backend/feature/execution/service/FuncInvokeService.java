@@ -51,7 +51,7 @@ public class FuncInvokeService {
             @Override
             public void afterCommit() {
                 sqsMessageSender.sendMessage(message);
-                log.info("SQS에 실행 요청을 성공적으로 보냈습니다. 함수 ID: {}, 실행 ID: {}",
+                log.info("(FuncInvokeService) 실행 요청을 성공적으로 보냈습니다. 함수 ID: {}, 실행 ID: {}",
                         message.getFunctionId(), message.getExecutionId());
             }
         });

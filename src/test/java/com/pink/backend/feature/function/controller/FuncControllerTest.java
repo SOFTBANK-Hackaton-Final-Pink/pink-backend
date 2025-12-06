@@ -5,10 +5,13 @@ import com.pink.backend.feature.function.dto.FuncCreateReq;
 import com.pink.backend.global.sqs.SqsMessageSender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -23,7 +26,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@Import(FuncControllerTest.TestSqsConfig.class)
 class FuncControllerTest {
+
+    @TestConfiguration
+    public static class TestSqsConfig {
+
+        @Bean
+        public SqsMessageSender sqsMessageSender() {
+            return Mockito.mock(SqsMessageSender.class);
+        }
+    }
 
     @Autowired
     private MockMvc mockMvc;
@@ -31,7 +44,7 @@ class FuncControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
+    @Autowired
     private SqsMessageSender sqsMessageSender;
 
     @Test
