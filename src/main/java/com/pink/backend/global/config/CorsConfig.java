@@ -9,7 +9,9 @@ public class CorsConfig implements WebMvcConfigurer {
 
     private static final String[] ALLOWED_ORIGINS = {
         "http://localhost:3000",
-        "http://52.78.40.174"
+        "http://52.78.40.174",
+        "http://code-bento.shop/",
+        "https://code-bento.shop/"
     };
 
     private static final String[] ALLOWED_METHODS = {
