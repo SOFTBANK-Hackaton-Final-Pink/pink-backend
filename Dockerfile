@@ -9,7 +9,7 @@ COPY gradlew.bat .
 COPY build.gradle.kts .
 COPY settings.gradle.kts .
 
-COPY src src
+COPY src/main src/main
 
 RUN chmod +x ./gradlew && ./gradlew build -x test --no-daemon
 
