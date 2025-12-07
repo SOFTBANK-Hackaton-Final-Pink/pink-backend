@@ -11,7 +11,9 @@ import org.hibernate.annotations.GenericGenerator;
 import java.util.UUID;
 
 @Entity
-@Table(name = "executions")
+@Table(name = "executions", indexes = {
+    @Index(name = "idx_execution_function_updated", columnList = "function_id, updated_at")
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Execution extends BaseTimeEntity {

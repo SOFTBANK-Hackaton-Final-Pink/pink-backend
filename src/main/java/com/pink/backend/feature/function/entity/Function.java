@@ -11,7 +11,9 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "functions")
+@Table(name = "functions", indexes = {
+    @Index(name = "idx_function_updated_at", columnList = "updated_at")
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
